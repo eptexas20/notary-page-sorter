@@ -3,8 +3,7 @@
 (function () {
   'use strict';
 
-  const config = window.SORTER_CONFIG || {};
-  const $ = (id) => document.getElementById(id);
+  const $ =(id) => document.getElementById(id);
 
   const drop = $('drop');
   const fileInput = $('file');
@@ -26,12 +25,6 @@
 
   let downloadUrls = [];
   let waitingForPassword = null;
-
-  if (config.communityUrl) {
-    $('join').href = config.communityUrl;
-    $('join').hidden = false;
-  }
-  if (config.codeUrl) $('code-link').href = config.codeUrl;
 
   // ---------- Picking a file ----------
 

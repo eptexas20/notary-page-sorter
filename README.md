@@ -8,7 +8,7 @@ It runs in your web browser, on your own computer. Your PDF is never uploaded, y
 
 **Use it now:** [eptexas20.github.io/notary-page-sorter](https://eptexas20.github.io/notary-page-sorter/)
 
-Made by Notary Automation Society, a free community where notaries learn to use AI, organize their business information, and make everyday tasks easier.
+Made by Notary Automation Society and free for any notary to use and share.
 
 ## How it works
 
@@ -61,7 +61,6 @@ The code is short and open. You, or any AI assistant, can read every line in `ap
 Everything is plain HTML, CSS and JavaScript. There's nothing to install and no build step.
 
 - `index.html` is the page, `app.js` does the sorting, and `styles.css` holds the look.
-- `config.js` holds the community link for the "Join the free community" button.
 - `sample.js` builds the made-up sample package.
 - The pictures in `docs/` come from `docs/source/visuals.html`.
 

@@ -39,8 +39,6 @@ a{color:var(--link);text-decoration:underline;text-underline-offset:.16em}
 .button:hover{background:var(--deep);border-color:var(--deep)}
 .button.ghost{background:transparent;color:var(--link)}
 .button.ghost:hover{background:var(--mint);border-color:var(--forest);color:var(--deep)}
-.button.light{background:var(--white);border-color:var(--white);color:var(--deep)}
-.button.light:hover{background:var(--mint);border-color:var(--mint)}
 .text-link{font-size:16px;font-weight:500}
 
 /* Hero band */
@@ -161,12 +159,6 @@ a{color:var(--link);text-decoration:underline;text-underline-offset:.16em}
 .chip.legal{border-color:var(--forest);background:var(--white)}
 .restack .pages{flex-basis:100%;font-size:15px;color:var(--link)}
 #print-guide{margin-top:24px}
-
-.cta{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;padding:32px;border-radius:var(--card);background:var(--deep);color:var(--white)}
-.cta :focus-visible{outline-color:var(--white)}
-.cta>div{flex:1 1 280px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-.cta h3{font-size:26px}
-.cta p{max-width:38em}
 
 /* How it works */
 .how{padding-top:32px;padding-bottom:64px}
