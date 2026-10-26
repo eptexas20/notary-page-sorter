@@ -362,7 +362,9 @@
     return el;
   }
 
+  // A short pause so the status message can show. A timer (not a screen redraw) keeps sorting
+  // going even when the tab is in the background.
   function nextPaint() {
-    return new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+    return new Promise((resolve) => setTimeout(resolve, 50));
   }
 })();
