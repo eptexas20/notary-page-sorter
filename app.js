@@ -206,9 +206,10 @@
       tile.style.setProperty('--t', `${Math.round(i * step)}ms`);
       return tile;
     }));
-    const duration = reduceMotion ? 0 : Math.round(pages.length * step + 240);
 
     const odd = pages.filter((p) => p.odd);
+    $('key-letter').hidden = letter.length === 0;
+    $('key-legal').hidden = legal.length === 0;
     $('key-odd').hidden = odd.length === 0;
     $('odd-note').hidden = odd.length === 0;
     if (odd.length) {
@@ -219,24 +220,11 @@
         : `Pages ${list}${more} are not exactly Letter or Legal. They went in the closest pile. Check them before you print.`;
     }
 
-    // Piles
-    fillPile('letter', letter, letterBytes, name, duration);
-    fillPile('legal', legal, legalBytes, name, duration);
-
-    // Print plan
-    const steps = [];
-    if (both) {
-      steps.push(['Load ', strong('Letter'), ` paper. Print the Letter PDF (${plural(letter.length, 'page')}).`]);
-      steps.push(['Load ', strong('Legal'), ` paper. Print the Legal PDF (${plural(legal.length, 'page')}).`]);
-      steps.push(['Put the pages back in order with the restack guide below.']);
-    } else {
-      const only = letter.length ? 'Letter' : 'Legal';
-      steps.push(['Load ', strong(only), ' paper.']);
-      steps.push([`Print the ${only} PDF or your original file. Every page is already in order.`]);
-    }
-    $('steps').replaceChildren(...steps.map((parts) => element('li', parts)));
-
-    $('restack-block').hidden = !both;
+    // Steps: print each pile, then restack. A one-size file only needs the first.
+    fillStep('letter', letter, letterBytes, name, both);
+    fillStep('legal', legal, legalBytes, name, both);
+    $('steps').classList.toggle('single', !both);
+    $('step-restack').hidden = !both;
     if (both) {
       $('restack').replaceChildren(...runsOf(pages).map((run) => {
         const isLegal = run.size === 'legal';
@@ -258,19 +246,15 @@
     results.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
-  function fillPile(kind, pages, bytes, name, duration) {
-    const count = $(`${kind}-count`);
+  function fillStep(kind, pages, bytes, name, both) {
+    $(`step-${kind}`).hidden = !bytes;
+    if (!bytes) return;
+    $(`${kind}-count`).textContent = both
+      ? plural(pages.length, 'page')
+      : `All ${plural(pages.length, 'page')}, already in order.`;
     const link = $(`${kind}-dl`);
-    $(`${kind}-word`).textContent = pages.length === 1 ? 'page' : 'pages';
-    $(`${kind}-empty`).hidden = pages.length > 0;
-    // The little stack shows up to three sheets.
-    document.querySelectorAll(`.pile-art.${kind} span`).forEach((sheet, i) => { sheet.hidden = i >= pages.length; });
-    link.hidden = !bytes;
-    if (bytes) {
-      link.href = blobUrl(bytes);
-      link.download = `${baseName(name)} - ${kind.toUpperCase()}.pdf`;
-    }
-    countUp(count, pages.length, duration);
+    link.href = blobUrl(bytes);
+    link.download = `${baseName(name)} - ${kind.toUpperCase()}.pdf`;
   }
 
   // Group pages in order into runs of the same size: "take 4 Letter, then 1 Legal..."
@@ -288,20 +272,6 @@
     return runs;
   }
 
-  function countUp(el, target, duration) {
-    if (!duration || target === 0) {
-      el.textContent = target;
-      return;
-    }
-    const start = performance.now();
-    const tick = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
-      el.textContent = Math.round(target * progress);
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    el.textContent = '0';
-    requestAnimationFrame(tick);
-  }
 
   // ---------- Small helpers ----------
 
