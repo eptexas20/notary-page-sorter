@@ -6,6 +6,8 @@ A free tool that splits a mixed loan package into a Letter PDF and a Legal PDF, 
 
 It runs in your web browser, on your own computer. Your PDF is never uploaded, you don't need an account, and it works with the internet turned off.
 
+**Use it now:** [eptexas20.github.io/notary-page-sorter](https://eptexas20.github.io/notary-page-sorter/)
+
 Made by Notary Automation Society, a free community where notaries learn to use AI, organize their business information, and make everyday tasks easier.
 
 ## How it works
@@ -18,6 +20,10 @@ Made by Notary Automation Society, a free community where notaries learn to use 
 4. Follow the restack guide to put the pages back in order.
 
 ## Start using it (about one minute)
+
+**Online:** open [eptexas20.github.io/notary-page-sorter](https://eptexas20.github.io/notary-page-sorter/) and bookmark it. The page loads from GitHub, but your PDF is still sorted on your own computer and never sent anywhere.
+
+**On your computer, works without internet:**
 
 1. Click the green **Code** button near the top of this page, then click **Download ZIP**.
 2. Right-click the ZIP file and choose **Extract All**.
