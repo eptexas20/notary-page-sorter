@@ -1,0 +1,203 @@
+/* Notary Page Sorter. Colors, fonts and spacing follow the Notary Automation Society brand kit v1.1. */
+@font-face{font-family:Manrope;src:url('assets/fonts/Manrope-Variable.ttf') format('truetype');font-style:normal;font-weight:200 800;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('assets/fonts/DMSans-Variable.ttf') format('truetype');font-style:normal;font-weight:100 1000;font-display:swap}
+
+:root{
+  --deep:#173D30;
+  --forest:#2A835F;
+  --soft:#F7FAF6;
+  --mint:#DCF0E3;
+  --link:#216B4D;
+  --white:#FFFFFF;
+  --heading:Manrope,Arial,sans-serif;
+  --body:'DM Sans',Arial,sans-serif;
+  --card:16px;
+  --btn:8px;
+  /* Paper shapes: Letter is 8.5 x 11, Legal is 8.5 x 14. */
+  --tile-w:30px;
+  --tile-letter:39px;
+  --tile-legal:49px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--soft);color:var(--deep);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--heading);font-weight:800;letter-spacing:-.025em;line-height:1.15;margin:0}
+p{margin:0}
+a{color:var(--link);text-decoration:underline;text-underline-offset:.16em}
+:focus-visible{outline:3px solid var(--deep);outline-offset:4px}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 16px}
+@media(min-width:720px){.wrap{padding:0 32px}}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:16px;top:-60px;background:var(--white);color:var(--deep);padding:8px 16px;border-radius:var(--btn);z-index:10}
+.skip:focus{top:16px}
+.print-only{display:none}
+[hidden]{display:none!important}
+
+/* Buttons */
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:2px solid var(--forest);border-radius:var(--btn);background:var(--forest);color:var(--white);font-family:var(--body);font-size:16px;font-weight:700;line-height:1.2;padding:12px 22px;text-decoration:none;cursor:pointer;transition:background-color 180ms ease,border-color 180ms ease,color 180ms ease}
+.button:hover{background:var(--deep);border-color:var(--deep)}
+.button.ghost{background:transparent;color:var(--link)}
+.button.ghost:hover{background:var(--mint);border-color:var(--forest);color:var(--deep)}
+.button.light{background:var(--white);border-color:var(--white);color:var(--deep)}
+.button.light:hover{background:var(--mint);border-color:var(--mint)}
+.text-link{font-size:16px;font-weight:500}
+
+/* Hero band */
+.hero-band{background:var(--forest);color:var(--white);padding-bottom:96px}
+.hero-band :focus-visible{outline-color:var(--white)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;padding-bottom:24px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--heading);font-weight:700;font-size:17px;letter-spacing:-.01em}
+.top-nav{display:flex;gap:24px;font-size:16px}
+.top-nav a{color:var(--white)}
+.hero{display:grid;gap:32px;align-items:center;padding-top:24px}
+@media(min-width:880px){.hero{grid-template-columns:1.05fr .95fr;gap:48px;padding-top:40px}}
+.hero h1{font-size:clamp(36px,6vw,56px);line-height:1.06;max-width:18ch}
+.lede{margin-top:24px;font-size:20px;max-width:34em}
+.promise{display:flex;gap:12px;align-items:flex-start;margin-top:24px;padding:16px;border-radius:12px;background:var(--deep);font-weight:500;max-width:30em}
+.promise svg{flex:none;margin-top:2px;color:var(--mint)}
+.hero-art{width:100%;max-width:560px;height:auto;justify-self:center;overflow:visible}
+
+/* Hero art: the sheets deal out of the PDF into their piles once, on load. */
+.art-pdf-label{font-family:var(--heading);font-weight:800;font-size:15px;fill:var(--white)}
+.art-name{font-family:var(--heading);font-weight:800;font-size:21px;fill:var(--white)}
+.art-size{font-family:var(--body);font-size:15px;font-weight:500;fill:var(--mint)}
+.sheet rect{stroke:var(--deep);stroke-width:2.5}
+.sheet path{stroke:var(--mint);stroke-width:5;stroke-linecap:round}
+.sheet.letter rect{fill:var(--white)}
+.sheet.legal rect{fill:var(--mint)}
+.sheet.legal path{stroke:var(--white)}
+.sheet{transform-box:fill-box;transform-origin:center;animation:deal 650ms cubic-bezier(.2,.75,.25,1) var(--d) both}
+.d1{--fx:-176px;--fy:-75px;--d:.45s}
+.d2{--fx:-179px;--fy:-71px;--d:.67s}
+.d3{--fx:-336px;--fy:-58px;--d:.89s}
+.d4{--fx:-182px;--fy:-67px;--d:1.11s}
+.d5{--fx:-339px;--fy:-54px;--d:1.33s}
+.d6{--fx:-342px;--fy:-50px;--d:1.55s}
+.d7{--fx:-185px;--fy:-63px;--d:1.77s}
+@keyframes deal{
+  from{opacity:0;transform:translate(var(--fx),var(--fy)) scale(.35) rotate(-12deg)}
+  40%{opacity:1}
+  to{opacity:1;transform:none}
+}
+
+/* Drop zone */
+.sorter{position:relative;margin-top:-64px;padding-bottom:64px;outline:none}
+.drop{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:40px 24px;background:var(--white);border:2px dashed var(--forest);border-radius:var(--card);box-shadow:0 12px 32px rgba(23,61,48,.12);transition:background-color 180ms ease,border-color 180ms ease}
+.drop.over{background:var(--mint);border-style:solid;border-color:var(--deep)}
+.drop.busy{opacity:.7;pointer-events:none}
+.drop-icon{color:var(--forest)}
+.drop-title{font-size:28px}
+.drop-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.drop-note{font-size:15px;color:var(--link);max-width:30em}
+
+.unlock{margin-top:24px;padding:24px;background:var(--white);border-radius:var(--card);border:2px solid var(--deep)}
+.unlock label{display:block;font-weight:700;margin-bottom:12px}
+.unlock-row{display:flex;flex-wrap:wrap;gap:12px}
+.unlock input{flex:1 1 220px;min-height:48px;padding:10px 14px;font:inherit;color:var(--deep);border:2px solid var(--deep);border-radius:var(--btn);background:var(--soft)}
+.hint{margin-top:10px;font-size:15px;color:var(--link)}
+
+.status{margin-top:16px;min-height:1.55em;font-weight:500;text-align:center}
+.status.error{background:var(--white);border:2px solid var(--deep);border-radius:12px;padding:14px 16px;text-align:left}
+
+/* Results */
+.results{margin-top:24px;display:grid;gap:32px}
+.results-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+.results-head h2{font-size:clamp(30px,5vw,44px);outline:none}
+.result-file{margin-top:6px;color:var(--link);overflow-wrap:anywhere}
+.results-head-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.block{background:var(--white);border-radius:var(--card);padding:24px}
+@media(min-width:720px){.block{padding:32px}}
+.block h3{font-size:24px}
+
+.key{display:flex;flex-wrap:wrap;gap:8px 24px;list-style:none;padding:0;margin:12px 0 24px;font-size:15px}
+.key li{display:flex;align-items:center;gap:8px}
+.swatch{display:inline-block;width:14px;height:18px;border-radius:2px;border:2px solid var(--deep);background:var(--white)}
+.swatch.legal{height:23px;background:var(--mint);border-color:var(--forest)}
+.swatch.odd{border-style:dashed;background:var(--soft)}
+
+/* Page map: each tile is a tiny sheet of paper, drawn to scale. */
+.map{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 6px;list-style:none;margin:0;padding:0}
+.tile{position:relative;flex:none;width:var(--tile-w);height:var(--tile-letter);display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;border:2px solid var(--deep);border-radius:3px;background:var(--white);font-size:11px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--deep);animation:tile-in 240ms ease-out var(--t,0ms) backwards}
+.tile.legal{height:var(--tile-legal);background:var(--mint);border-color:var(--forest)}
+.tile.odd{border-style:dashed;background:var(--soft)}
+.tile.odd::after{content:"!";position:absolute;top:2px;left:0;right:0;text-align:center;font-size:12px}
+@keyframes tile-in{from{opacity:0;transform:translateY(10px) scale(.85)}}
+.odd-note{margin-top:20px;font-size:16px}
+
+.piles{display:grid;gap:16px}
+@media(min-width:720px){.piles{grid-template-columns:1fr 1fr;gap:24px}}
+.pile{display:flex;gap:24px;align-items:flex-end;padding:24px;border-radius:var(--card);background:var(--white);border:2px solid var(--deep)}
+.pile-legal{background:var(--mint);border-color:var(--forest)}
+@media(max-width:479px){.pile{padding:20px}.pile-art{display:none}}
+.pile-body{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.pile-count{font-size:16px}
+.pile-count strong{display:block;font-family:var(--heading);font-weight:800;font-size:48px;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.pile-body .button{margin-top:8px}
+.pile-empty{font-size:16px}
+/* Little paper stacks, to scale. */
+.pile-art{position:relative;flex:none;width:66px;height:84px}
+.pile-art span{position:absolute;left:0;bottom:0;width:56px;height:72px;border:2px solid var(--deep);border-radius:3px;background:var(--white)}
+.pile-art.legal span{height:92px;background:var(--mint);border-color:var(--forest)}
+.pile-art.legal{height:104px}
+.pile-art span:nth-child(2){left:4px;bottom:5px}
+.pile-art span:nth-child(3){left:8px;bottom:10px}
+.pile-art.legal span:nth-child(3){background:var(--white)}
+.pile-legal .pile-art.legal span{background:var(--white)}
+
+.plan h3+.steps{margin-top:16px}
+.steps,.restack{margin:0;padding:0;list-style:none;counter-reset:n}
+.steps li,.restack li{counter-increment:n;position:relative;padding-left:48px;min-height:32px}
+.steps li::before,.restack li::before{content:counter(n);position:absolute;left:0;top:-2px;width:32px;height:32px;border-radius:50%;background:var(--forest);color:var(--white);font-family:var(--heading);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.steps li+li{margin-top:14px}
+#restack-block{margin-top:32px;padding-top:32px;border-top:2px solid var(--mint)}
+.restack-intro{margin-top:12px;max-width:40em}
+.restack{margin-top:20px;display:grid;gap:10px}
+@media(min-width:720px){.restack{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}}
+.restack li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:6px 12px 6px 48px;border-radius:10px;background:var(--soft);min-height:48px}
+.restack li::before{left:8px;top:8px}
+.restack li.legal{background:var(--mint)}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;border:2px solid var(--deep);background:var(--white);font-size:14px;font-weight:700}
+.chip.legal{border-color:var(--forest);background:var(--white)}
+.restack .pages{flex-basis:100%;font-size:15px;color:var(--link)}
+#print-guide{margin-top:24px}
+
+.cta{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;padding:32px;border-radius:var(--card);background:var(--deep);color:var(--white)}
+.cta :focus-visible{outline-color:var(--white)}
+.cta>div{flex:1 1 280px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.cta h3{font-size:26px}
+.cta p{max-width:38em}
+
+/* How it works */
+.how{padding-top:32px;padding-bottom:64px}
+.how h2{font-size:clamp(30px,5vw,40px)}
+.how-steps{display:grid;gap:16px;margin:24px 0 0;padding:0;list-style:none;counter-reset:h}
+@media(min-width:880px){.how-steps{grid-template-columns:repeat(3,1fr);gap:24px}}
+.how-steps li{counter-increment:h;padding:24px;border-left:4px solid var(--forest);background:var(--white);border-radius:0 var(--card) var(--card) 0}
+.how-steps li::before{content:counter(h);display:block;font-family:var(--heading);font-weight:800;font-size:40px;line-height:1;color:var(--forest);margin-bottom:12px}
+.how-steps h3{font-size:22px;margin-bottom:8px}
+.faq{margin-top:40px;display:grid;gap:12px;max-width:760px}
+.faq details{background:var(--white);border-radius:12px;padding:0 20px}
+.faq summary{cursor:pointer;padding:16px 0;font-weight:700;list-style-position:outside}
+.faq details p{padding-bottom:18px}
+
+.foot{padding-top:24px;padding-bottom:48px;font-size:15px;color:var(--link);border-top:2px solid var(--mint)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* Printing the restack guide prints only the plan. */
+@media print{
+  body{background:#fff;font-size:12pt}
+  .hero-band,.drop,.unlock,.status,.results-head,.map-block,.piles,.no-print{display:none!important}
+  .sorter{margin:0;padding:0}
+  .results{display:block!important;margin:0}
+  .block{padding:0}
+  .print-only{display:block}
+  .print-file{font-weight:700;margin-bottom:12pt}
+  .restack{grid-template-columns:repeat(2,1fr)}
+  .restack li,.steps li::before,.restack li::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .restack li{break-inside:avoid}
+}

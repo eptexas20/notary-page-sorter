@@ -1,0 +1,4 @@
+# Keep real loan documents out of this repository.
+*.pdf
+.DS_Store
+Thumbs.db

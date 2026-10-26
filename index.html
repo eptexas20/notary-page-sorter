@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- This rule stops the page from sending anything over the internet. Your PDF stays on your computer. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>Notary Page Sorter</title>
+<meta name="description" content="Split a mixed loan package into a Letter PDF and a Legal PDF for one-tray printers. Runs in your browser. Your file never leaves your computer.">
+<link rel="icon" href="assets/logo/nas-mark-forest-green.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="config.js" defer></script>
+<script src="vendor/pdf-lib.min.js" defer></script>
+<script src="sample.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body class="nas-brand">
+<a class="skip" href="#sorter">Skip to the sorter</a>
+
+<div class="hero-band">
+  <header class="top wrap">
+    <span class="brand"><img src="assets/logo/nas-mark-white.svg" alt="" width="32" height="32"> Notary Automation Society</span>
+    <nav class="top-nav" aria-label="Page">
+      <a href="#how">How it works</a>
+      <a id="code-link" href="https://github.com/eptexas20/notary-page-sorter">Get the code</a>
+    </nav>
+  </header>
+
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-text">
+      <h1 id="hero-title">Turn one messy loan package into two neat print piles.</h1>
+      <p class="lede">Drop in a loan package with mixed Letter and Legal pages. Get one PDF for each paper size, plus a guide to put the pages back in order.</p>
+      <p class="promise">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        Your file stays on this computer. Nothing gets uploaded, you don't need an account, and it works offline.
+      </p>
+    </div>
+
+    <svg class="hero-art" viewBox="0 84 520 258" role="img" aria-labelledby="art-title">
+      <title id="art-title">A PDF splits into a short Letter pile and a taller Legal pile</title>
+      <g class="art-pdf">
+        <path d="M24 98h62l26 26v92a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V102a4 4 0 0 1 4-4z" fill="#FFFFFF" stroke="#173D30" stroke-width="3"/>
+        <path d="M86 98v22a4 4 0 0 0 4 4h22" fill="none" stroke="#173D30" stroke-width="3"/>
+        <rect x="34" y="134" width="48" height="6" rx="3" fill="#DCF0E3"/>
+        <rect x="34" y="148" width="62" height="6" rx="3" fill="#DCF0E3"/>
+        <rect x="34" y="162" width="40" height="6" rx="3" fill="#DCF0E3"/>
+        <rect x="32" y="182" width="56" height="26" rx="5" fill="#173D30"/>
+        <text x="60" y="200" text-anchor="middle" class="art-pdf-label">PDF</text>
+      </g>
+      <path class="art-arrow" d="M128 160h34m-10-10 10 10-10 10" fill="none" stroke="#DCF0E3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <g class="sheet letter d1"><rect x="196" y="173" width="92" height="119" rx="4"/><path d="M208 191h52M208 203h66M208 215h44"/></g>
+      <g class="sheet letter d2"><rect x="199" y="169" width="92" height="119" rx="4"/><path d="M211 187h52M211 199h66M211 211h44"/></g>
+      <g class="sheet letter d4"><rect x="202" y="165" width="92" height="119" rx="4"/><path d="M214 183h52M214 195h66M214 207h44"/></g>
+      <g class="sheet letter d7"><rect x="205" y="161" width="92" height="119" rx="4"/><path d="M217 179h52M217 191h66M217 203h44"/></g>
+
+      <g class="sheet legal d3"><rect x="356" y="140" width="92" height="152" rx="4"/><path d="M368 158h52M368 170h66M368 182h44"/></g>
+      <g class="sheet legal d5"><rect x="359" y="136" width="92" height="152" rx="4"/><path d="M371 154h52M371 166h66M371 178h44"/></g>
+      <g class="sheet legal d6"><rect x="362" y="132" width="92" height="152" rx="4"/><path d="M374 150h52M374 162h66M374 174h44"/></g>
+
+      <text x="246" y="316" text-anchor="middle" class="art-name">Letter</text>
+      <text x="246" y="334" text-anchor="middle" class="art-size">8.5 x 11 in</text>
+      <text x="406" y="316" text-anchor="middle" class="art-name">Legal</text>
+      <text x="406" y="334" text-anchor="middle" class="art-size">8.5 x 14 in</text>
+    </svg>
+  </section>
+</div>
+
+<main id="sorter" class="wrap sorter" tabindex="-1">
+  <div class="drop" id="drop">
+    <input type="file" id="file" accept="application/pdf,.pdf" class="visually-hidden" tabindex="-1">
+    <svg class="drop-icon" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><path d="M13 6h16l9 9v25a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="#FFFFFF" stroke="currentColor" stroke-width="2.5"/><path d="M29 6v9h9" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M24 34V21m-6 6 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2 class="drop-title">Drop your PDF here</h2>
+    <div class="drop-actions">
+      <button type="button" class="button" id="choose">Choose a PDF</button>
+      <button type="button" class="button ghost" id="sample">Try a sample package</button>
+    </div>
+    <p class="drop-note">The sample is a made-up loan package, so it is safe to show on camera.</p>
+  </div>
+
+  <form class="unlock" id="unlock" hidden>
+    <label for="password" id="unlock-label">This PDF is locked. Type its password to sort it.</label>
+    <div class="unlock-row">
+      <input id="password" type="password" autocomplete="off" spellcheck="false">
+      <button type="submit" class="button">Unlock and sort</button>
+    </div>
+    <p class="hint">The password stays on this computer too.</p>
+  </form>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <section class="results" id="results" hidden aria-labelledby="result-title">
+    <div class="results-head">
+      <div>
+        <h2 id="result-title" tabindex="-1">Sorted.</h2>
+        <p class="result-file" id="result-file"></p>
+      </div>
+      <div class="results-head-actions">
+        <a class="text-link" id="sample-dl" hidden download="sample-loan-package.pdf">Download the sample</a>
+        <button type="button" class="button ghost" id="reset">Sort another PDF</button>
+      </div>
+    </div>
+
+    <div class="block map-block">
+      <h3>Your package, page by page</h3>
+      <ul class="key" aria-label="Key">
+        <li><span class="swatch letter"></span>Letter, 8.5 x 11</li>
+        <li><span class="swatch legal"></span>Legal, 8.5 x 14</li>
+        <li class="key-odd" id="key-odd" hidden><span class="swatch odd"></span>Other size, check it</li>
+      </ul>
+      <ol class="map" id="map" aria-label="Pages in order"></ol>
+      <p class="odd-note" id="odd-note" hidden></p>
+    </div>
+
+    <div class="piles">
+      <article class="pile pile-letter">
+        <div class="pile-art letter" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="pile-body">
+          <h3>Letter pile</h3>
+          <p class="pile-count"><strong id="letter-count">0</strong> <span id="letter-word">pages</span></p>
+          <a class="button" id="letter-dl" download>Download Letter PDF</a>
+          <p class="pile-empty" id="letter-empty" hidden>No Letter pages in this file.</p>
+        </div>
+      </article>
+      <article class="pile pile-legal">
+        <div class="pile-art legal" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="pile-body">
+          <h3>Legal pile</h3>
+          <p class="pile-count"><strong id="legal-count">0</strong> <span id="legal-word">pages</span></p>
+          <a class="button" id="legal-dl" download>Download Legal PDF</a>
+          <p class="pile-empty" id="legal-empty" hidden>No Legal pages in this file.</p>
+        </div>
+      </article>
+    </div>
+
+    <section class="block plan" id="plan" aria-labelledby="plan-title">
+      <p class="print-only print-file" id="print-file"></p>
+      <h3 id="plan-title">Print plan</h3>
+      <ol class="steps" id="steps"></ol>
+
+      <div id="restack-block">
+        <h3>Restack guide</h3>
+        <p class="restack-intro">Turn both printed piles face up, first page on top. Then take sheets off the top in this order:</p>
+        <ol class="restack" id="restack"></ol>
+        <button type="button" class="button ghost no-print" id="print-guide">Print this guide</button>
+      </div>
+    </section>
+
+    <aside class="cta no-print" aria-labelledby="cta-title">
+      <img src="assets/logo/nas-mark-white.svg" alt="" width="56" height="56">
+      <div>
+        <h3 id="cta-title">Want more free tools like this?</h3>
+        <p>Notary Automation Society is a free community where notaries learn to use AI, organize their business information, and make everyday tasks easier.</p>
+        <a class="button light" id="join" href="#" hidden>Join the free community</a>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<section id="how" class="how wrap no-print" aria-labelledby="how-title">
+  <h2 id="how-title">How it works</h2>
+  <ol class="how-steps">
+    <li>
+      <h3>Drop your PDF</h3>
+      <p>Pick the loan package from your computer. The sorting happens right here in your browser.</p>
+    </li>
+    <li>
+      <h3>It measures every page</h3>
+      <p>Letter pages are 11 inches tall. Legal pages are 14. Each page goes in the pile that matches its size.</p>
+    </li>
+    <li>
+      <h3>Print and restack</h3>
+      <p>Print one pile, swap the paper, print the other. The restack guide shows where each Legal page goes back in.</p>
+    </li>
+  </ol>
+
+  <div class="faq">
+    <details>
+      <summary>Is my loan package safe?</summary>
+      <p>Yes. The page has a built-in rule that blocks it from sending anything over the internet. Your PDF is read on your computer and the two new PDFs are made on your computer. To test it, turn off your Wi-Fi and sort a file.</p>
+    </details>
+    <details>
+      <summary>What if a page is not Letter or Legal?</summary>
+      <p>It goes in the closest pile and gets a dashed outline on the page map, so you can check it before you print.</p>
+    </details>
+    <details>
+      <summary>What about locked PDFs?</summary>
+      <p>Many packages are locked but open without a password. Those sort right away. If yours needs a password, the page asks for it.</p>
+    </details>
+    <details>
+      <summary>Do I still need to check my pages?</summary>
+      <p>Yes. Always count your printed sheets and compare them with the original package before a signing. This tool helps with printing. It does not check documents.</p>
+    </details>
+  </div>
+</section>
+
+<footer class="foot wrap no-print">
+  <p>Made by Notary Automation Society. Free and open source. Not affiliated with any lender, title company or signing service.</p>
+</footer>
+</body>
+</html>
